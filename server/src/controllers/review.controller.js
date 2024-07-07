@@ -34,7 +34,10 @@ const remove = async (req, res) => {
 
     if (!review) return responseHandler.notfound(res)
 
-    await review.remove()
+    await reviewModel.deleteOne({
+      _id: reviewId,
+      user: req.user.id
+    })
 
     responseHandler.ok(res)
   } catch {
