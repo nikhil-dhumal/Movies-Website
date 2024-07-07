@@ -30,7 +30,7 @@ const UserMenu = () => {
             open={Boolean(anchorEl)}
             anchorEl={anchorEl}
             onClose={() => setAnchorEl(null)}
-            props={{ sx: { padding: 0 } }}
+            PaperProps={{ sx: { padding: 0 } }}
           >
             {menuConfigs.user.map((item, index) => (
               <ListItemButton
@@ -45,6 +45,15 @@ const UserMenu = () => {
                 } />
               </ListItemButton>
             ))}
+            <ListItemButton
+              sx={{ borderRadius: "10px" }}
+              onClick={() => dispatch(setUser(null))}
+            >
+              <ListItemIcon><LogoutOutlinedIcon /></ListItemIcon>
+              <ListItemText disableTypography primary={
+                <Typography textTransform="uppercase">sign out</Typography>
+              } />
+            </ListItemButton>
           </Menu>
         </>
       )}
