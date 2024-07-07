@@ -10,6 +10,9 @@ import routes from "./routes/routes"
 import themeConfigs from "./configs/theme.configs"
 
 import "react-toastify/dist/ReactToastify.css"
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
 
 const App = () => {
   const { themeMode } = useSelector((state) => state.themeMode)
