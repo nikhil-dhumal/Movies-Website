@@ -1,4 +1,4 @@
-import { Box, Typography, CircularProgress } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material"
 
 const CircularRate = ({ value }) => {
   return (
@@ -28,7 +28,7 @@ const CircularRate = ({ value }) => {
         </Typography>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default CircularRate;
+export default CircularRate
