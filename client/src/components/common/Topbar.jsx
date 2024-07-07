@@ -98,7 +98,7 @@ const Topbar = () => {
                 sign in
               </Button>}
             </Stack>
-            <UserMenu />
+            {user && <UserMenu />}
             {/* user menu */}
 
           </Toolbar>
