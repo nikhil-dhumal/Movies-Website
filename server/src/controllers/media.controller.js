@@ -5,6 +5,18 @@ import favoriteModel from "../models/favorite.model.js"
 import reviewModel from "../models/review.model.js"
 import tokenMiddlerware from "../middlewares/token.middleware.js"
 
+const getTrendingList = async (req, res) => {
+  try {
+    const { mediaType, timeWindow } = req.params
+
+    const response = await tmdbApi.trendingMediaList({ mediaType, timeWindow })
+
+    return responseHandler.ok(res, response)
+  } catch {
+    responseHandler.error(res)
+  }
+}
+
 const getList = async (req, res) => {
   try {
     const { page } = req.query
@@ -87,4 +99,4 @@ const getDetail = async (req, res) => {
   }
 }
 
-export default { getList, getGenres, search, getDetail }
+export default { getTrendingList, getList, getGenres, search, getDetail }

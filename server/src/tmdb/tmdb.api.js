@@ -2,6 +2,9 @@ import axiosClient from "../axios/axios.client.js"
 import tmdbEndpoints from "./tmdb.endpoints.js"
 
 const tmdbApi = {
+  trendingMediaList: async ({ mediaType, timeWindow }) => await axiosClient.get(
+    tmdbEndpoints.trendingMediaList({ mediaType, timeWindow })
+  ),
   mediaList: async ({ mediaType, mediaCategory, page }) => await axiosClient.get(
     tmdbEndpoints.mediaList({ mediaType, mediaCategory, page })
   ),

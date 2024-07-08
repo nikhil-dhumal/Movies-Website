@@ -18,7 +18,7 @@ import tmdbConfigs from "../../api/configs/tmdb.configs"
 import genreApi from "../../api/modules/genre.api"
 import mediaApi from "../../api/modules/media.api"
 
-const HeroSlide = ({ mediaType, mediaCategory }) => {
+const HeroSlide = ({ mediaType }) => {
   const theme = useTheme()
   const dispatch = useDispatch()
 
@@ -27,10 +27,9 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
 
   useEffect(() => {
     const getMedias = async () => {
-      const { response, err } = await mediaApi.getList({
+      const { response, err } = await mediaApi.getTrendingList({
         mediaType,
-        mediaCategory,
-        page: 1
+        timeWindow: "week"
       })
 
       if (response) setMovies(response.results)
@@ -53,7 +52,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
     }
 
     getGenres()
-  }, [mediaType, mediaCategory, dispatch])
+  }, [mediaType, dispatch])
 
   return (
     <Box sx={{

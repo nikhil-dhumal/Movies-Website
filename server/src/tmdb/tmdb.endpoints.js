@@ -1,6 +1,9 @@
 import tmdbConfig from "./tmdb.config.js"
 
 const tmdbEndpoints = {
+  trendingMediaList: ({ mediaType, timeWindow }) => tmdbConfig.getUrl(
+    `trending/${mediaType}/${timeWindow}`
+  ),
   mediaList: ({ mediaType, mediaCategory, page }) => tmdbConfig.getUrl(
     `${mediaType}/${mediaCategory}`, { page }
   ),
