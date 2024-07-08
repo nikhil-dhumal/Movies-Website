@@ -21,6 +21,9 @@ const tmdbEndpoints = {
   ),
   mediaRecommend: ({ mediaType, mediaId }) => tmdbConfig.getUrl(
     `${mediaType}/${mediaId}/recommendations`
+  ), 
+  tvSeasons: ({ mediaId, season }) => tmdbConfig.getUrl(
+    `tv/${mediaId}/season/${season}`
   ),
   mediaImages: ({ mediaType, mediaId }) => tmdbConfig.getUrl(
     `${mediaType}/${mediaId}/images`
