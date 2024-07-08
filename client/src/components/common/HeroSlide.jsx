@@ -107,10 +107,10 @@ const HeroSlide = () => {
         loop={true}
         modules={[Autoplay]}
         style={{ width: "100%", height: "max-content" }}
-      // autoplay={{
-      //   delay: 3000,
-      //   disableOnInteraction: false
-      // }}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false
+        }}
       >
         {medias.map((media, index) => (
           <SwiperSlide key={index}>
