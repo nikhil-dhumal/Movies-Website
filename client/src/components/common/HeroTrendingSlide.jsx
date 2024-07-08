@@ -144,7 +144,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
                 xs: "130%",
                 sm: "80%",
                 md: "60%",
-                lg: "45%"
+                lg: "50%"
               },
               backgroundPosition: "top",
               backgroundSize: "cover",
