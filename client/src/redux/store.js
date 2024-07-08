@@ -4,6 +4,7 @@ import authModalSlice from "./features/authModalSlice"
 import globalLoadingSlice from "./features/globalLoadingSlice"
 import themeModeSlice from "./features/themeModeSlice"
 import userSlice from "./features/userSlice"
+import trendingSlice from "./features/trendingSlice"
 
 const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
     themeMode: themeModeSlice,
     authModal: authModalSlice,
     globalLoading: globalLoadingSlice,
-    appState: appStateSlice
+    appState: appStateSlice,
+    trending: trendingSlice,
   }
 })
 

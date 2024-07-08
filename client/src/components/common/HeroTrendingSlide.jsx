@@ -1,7 +1,7 @@
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import { Box, Button, Chip, Divider, Stack, Typography, useTheme } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { Autoplay } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -18,12 +18,12 @@ import tmdbConfigs from "../../api/configs/tmdb.configs"
 import genreApi from "../../api/modules/genre.api"
 import mediaApi from "../../api/modules/media.api"
 
-const HeroSlide = ({ mediaType, mediaCategory }) => {
+const HeroSlide = () => {
+  const { trending } = useSelector((state) => state.trending)
   const theme = useTheme()
   const dispatch = useDispatch()
 
   const [medias, setmedias] = useState([])
-  const [genres, setGenres] = useState([])
   const [movieGenres, setMovieGenres] = useState([])
   const [tvGenres, setTvGenres] = useState([])
 
@@ -40,23 +40,14 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
 
   useEffect(() => {
     const getMedias = async () => {
-      if (mediaType !== undefined) {
-        const { response, err } = await mediaApi.getList({ mediaType, mediaCategory, page: 1 })
-
-        if (response) setmedias(response.results)
-        if (err) toast.error(err.message)
-
-        dispatch(setGlobalLoading(false))
-      }
-
       const { response: movieResponse, err: movieErr } = await mediaApi.getTrendingList({
         mediaType: tmdbConfigs.mediaType.movie,
-        timeWindow: "week"
+        timeWindow: trending
       })
 
       const { response: tvResponse, err: tvErr } = await mediaApi.getTrendingList({
         mediaType: tmdbConfigs.mediaType.tv,
-        timeWindow: "week"
+        timeWindow: trending
       })
 
       if (movieResponse && tvResponse) {
@@ -72,21 +63,6 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
     }
 
     const getGenres = async () => {
-      if (mediaType !== undefined) {
-        dispatch(setGlobalLoading(true))
-        const { response, err } = await genreApi.getList({ mediaType })
-
-        if (response) {
-          setGenres(response.genres)
-          getMedias()
-        }
-
-        if (err) {
-          toast.error(err.message)
-          setGlobalLoading(false)
-        }
-      }
-
       dispatch(setGlobalLoading(true))
       const { response: movieResponse, err: movieErr } = await genreApi.getList({ mediaType: tmdbConfigs.mediaType.movie })
       const { response: tvResponse, err: tvErr } = await genreApi.getList({ mediaType: tmdbConfigs.mediaType.tv })
@@ -109,7 +85,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
     }
 
     getGenres()
-  }, [dispatch, mediaType, mediaCategory])
+  }, [dispatch, trending])
 
   return (
     <Box sx={{
@@ -202,8 +178,8 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
                         key={index}
                         label={
                           media.media_type === "movie"
-                              ? movieGenres.find(e => e.id === genreId) && movieGenres.find(e => e.id === genreId).name
-                              : tvGenres.find(e => e.id === genreId) && tvGenres.find(e => e.id === genreId).name
+                            ? movieGenres.find(e => e.id === genreId) && movieGenres.find(e => e.id === genreId).name
+                            : tvGenres.find(e => e.id === genreId) && tvGenres.find(e => e.id === genreId).name
                         }
                       />
                     ))}
