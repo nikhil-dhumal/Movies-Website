@@ -60,10 +60,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
       })
 
       if (movieResponse && tvResponse) {
-        const combinedMedias = [
-          ...movieResponse.results.map(movie => ({...movie, media_type: "movie"})), 
-          ...tvResponse.results.map(tv => ({...tv, media_type: "tv"}))
-        ]
+        const combinedMedias = [...movieResponse.results, ...tvResponse.results]
         const shuffledMedias = shuffleArray(combinedMedias)
         setmedias(shuffledMedias)
       }
@@ -204,9 +201,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
                         color="primary"
                         key={index}
                         label={
-                          mediaType !== undefined
-                            ? genres.find(e => e.id == genreId) && genres.find(e => e.id === genreId).name
-                            : media.media_type === "movie"
+                          media.media_type === "movie"
                               ? movieGenres.find(e => e.id === genreId) && movieGenres.find(e => e.id === genreId).name
                               : tvGenres.find(e => e.id === genreId) && tvGenres.find(e => e.id === genreId).name
                         }
@@ -229,7 +224,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
                     size="large"
                     startIcon={<PlayArrowIcon />}
                     component={Link}
-                    to={routesGen.mediaDetail(tmdbConfigs.mediaType.tv, media.id)}
+                    to={routesGen.mediaDetail(media.media_type, media.id)}
                     sx={{ width: "max-content" }}
                   >
                     watch now

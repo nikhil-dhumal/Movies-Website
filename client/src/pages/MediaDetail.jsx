@@ -260,7 +260,11 @@ const MediaDetail = () => {
             {media.recommend.length === 0 && (
               <MediaSlide
                 mediaType={mediaType}
-                mediaCategory={tmdbConfigs.mediaCategory.top_rated}
+                mediaCategory={
+                  mediaType === tmdbConfigs.mediaType.movie
+                    ? tmdbConfigs.movieCategory.top_rated
+                    : tmdbConfigs.tvCategory.top_rated
+                }
               />
             )}
           </Container>
