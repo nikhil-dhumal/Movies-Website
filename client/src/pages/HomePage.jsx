@@ -1,5 +1,5 @@
 import React from 'react'
-import HeroSlide from '../components/common/HeroSlide'
+import HeroTrendingSlide from '../components/common/HeroTrendingSlide'
 import tmdbConfigs from "../api/configs/tmdb.configs"
 import { Box } from '@mui/material'
 import uiConfigs from "../configs/ui.configs"
@@ -9,7 +9,7 @@ import MediaSlide from "../components/common/MediaSlide"
 const HomePage = () => {
   return (
     <>
-      <HeroSlide/>
+      <HeroTrendingSlide/>
 
       <Box marginTop="-4rem" sx={{ ...uiConfigs.style.mainContent }}>
         <Container header="popular movies">

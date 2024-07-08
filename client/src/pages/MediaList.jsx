@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom"
 import tmdbConfigs from "../api/configs/tmdb.configs"
 import mediaApi from "../api/modules/media.api"
 import uiConfigs from "../configs/ui.configs"
-import HeroSlide from "../components/common/HeroSlide"
+import HeroSlide from "../components/common/HeroTrendingSlide"
 import MediaGrid from "../components/common/MediaGrid"
 import { setAppState } from "../redux/features/appStateSlice"
 import { setGlobalLoading } from "../redux/features/globalLoadingSlice"
@@ -24,8 +24,10 @@ const MediaList = () => {
   const prevMediaType = usePrevious(mediaType)
   const dispatch = useDispatch()
 
-  const mediaCategories = useMemo(() => ["popular", "top_rated"], [])
-  const category = ["popular", "top rated"]
+  const movieCategories = useMemo(() => ["popular", "top_rated", "now_playing", "upcoming"], [])
+  const movieCategory = ["popular", "top rated", "now_playing", "upcoming"]
+  const tvCategories = useMemo(() => ["popular", "top_rated", "on_the_air", "airing_today"], [])
+  const tvCategory = ["popular", "top rated", "on_the_air", "airing_today"]
 
   useEffect(() => {
     dispatch(setAppState(mediaType))
@@ -39,7 +41,7 @@ const MediaList = () => {
 
       const { response, err } = await mediaApi.getList({
         mediaType,
-        mediaCategory: mediaCategories[currCategory],
+        mediaCategory: mediaType === tmdbConfigs.mediaType.movie ? movieCategories[currCategory] : tvCategories[currCategory],
         page: currPage
       })
 
@@ -64,7 +66,8 @@ const MediaList = () => {
     currCategory,
     prevMediaType,
     currPage,
-    mediaCategories,
+    movieCategories,
+    tvCategories,
     dispatch
   ])
 
@@ -79,7 +82,7 @@ const MediaList = () => {
 
   return (
     <>
-      <HeroSlide mediaType={mediaType} mediaCategory={mediaCategories[currCategory]} />
+      <HeroSlide mediaType={mediaType} mediaCategory={mediaType === tmdbConfigs.mediaType.movie ? movieCategories[currCategory] : tvCategories[currCategory]} />
       <Box sx={{ ...uiConfigs.style.mainContent }}>
         <Stack
           spacing={2}
@@ -92,19 +95,38 @@ const MediaList = () => {
             {mediaType === tmdbConfigs.mediaType.movie ? "Movies" : "TV Series"}
           </Typography>
           <Stack direction="row" spacing={2}>
-            {category.map((cate, index) => (
-              <Button
-                key={index}
-                size="large"
-                variant={currCategory === index ? "contained" : "text"}
-                sx={{
-                  color: currCategory === index ? "primary.contrastText" : "text.primary"
-                }}
-                onClick={() => onCategoryChange(index)}
-              >
-                {cate}
-              </Button>
-            ))}
+            {
+              mediaType === tmdbConfigs.mediaType.movie
+                ? (
+                  movieCategory.map((cate, index) => (
+                    <Button
+                      key={index}
+                      size="large"
+                      variant={currCategory === index ? "contained" : "text"}
+                      sx={{
+                        color: currCategory === index ? "primary.contrastText" : "text.primary"
+                      }}
+                      onClick={() => onCategoryChange(index)}
+                    >
+                      {cate}
+                    </Button>
+                  ))
+                ) : (
+                  tvCategory.map((cate, index) => (
+                    <Button
+                      key={index}
+                      size="large"
+                      variant={currCategory === index ? "contained" : "text"}
+                      sx={{
+                        color: currCategory === index ? "primary.contrastText" : "text.primary"
+                      }}
+                      onClick={() => onCategoryChange(index)}
+                    >
+                      {cate}
+                    </Button>
+                  ))
+                )
+            }
           </Stack>
         </Stack>
         <MediaGrid

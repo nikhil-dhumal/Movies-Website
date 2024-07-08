@@ -24,29 +24,86 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
 
   const [medias, setmedias] = useState([])
   const [genres, setGenres] = useState([])
+  const [movieGenres, setMovieGenres] = useState([])
+  const [tvGenres, setTvGenres] = useState([])
+
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+
+    return array;
+  }
 
   useEffect(() => {
     const getMedias = async () => {
-      const { response, err } = await mediaApi.getList({ mediaType, mediaCategory, page: 1 })
+      if (mediaType !== undefined) {
+        const { response, err } = await mediaApi.getList({ mediaType, mediaCategory, page: 1 })
 
-      if (response) setmedias(response.results)
-      if (err) toast.error(err.message)
+        if (response) setmedias(response.results)
+        if (err) toast.error(err.message)
+
+        dispatch(setGlobalLoading(false))
+      }
+
+      const { response: movieResponse, err: movieErr } = await mediaApi.getTrendingList({
+        mediaType: tmdbConfigs.mediaType.movie,
+        timeWindow: "week"
+      })
+
+      const { response: tvResponse, err: tvErr } = await mediaApi.getTrendingList({
+        mediaType: tmdbConfigs.mediaType.tv,
+        timeWindow: "week"
+      })
+
+      if (movieResponse && tvResponse) {
+        const combinedMedias = [...movieResponse.results, ...tvResponse.results]
+        const shuffledMedias = shuffleArray(combinedMedias)
+        setmedias(shuffledMedias)
+      }
+
+      if (movieErr) toast.error(movieErr.message)
+      if (tvErr) toast.error(tvErr.message)
 
       dispatch(setGlobalLoading(false))
-
     }
 
     const getGenres = async () => {
-      dispatch(setGlobalLoading(true))
-      const { response, err } = await genreApi.getList({ mediaType })
+      if (mediaType !== undefined) {
+        dispatch(setGlobalLoading(true))
+        const { response, err } = await genreApi.getList({ mediaType })
 
-      if (response) {
-        setGenres(response.genres)
+        if (response) {
+          setGenres(response.genres)
+          getMedias()
+        }
+
+        if (err) {
+          toast.error(err.message)
+          setGlobalLoading(false)
+        }
+      }
+
+      dispatch(setGlobalLoading(true))
+      const { response: movieResponse, err: movieErr } = await genreApi.getList({ mediaType: tmdbConfigs.mediaType.movie })
+      const { response: tvResponse, err: tvErr } = await genreApi.getList({ mediaType: tmdbConfigs.mediaType.tv })
+
+      if (movieResponse && tvResponse) {
+        setMovieGenres(movieResponse.genres)
+        setTvGenres(tvResponse.genres)
         getMedias()
       }
 
-      if (err) {
-        toast.error(err.message)
+      if (movieErr) {
+        toast.error(movieErr.message)
+        setGlobalLoading(false)
+      }
+
+      if (tvErr) {
+        toast.error(movieErr.message)
         setGlobalLoading(false)
       }
     }
@@ -143,7 +200,13 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
                         variant="filled"
                         color="primary"
                         key={index}
-                        label={genres.find(e => e.id == genreId) && genres.find(e => e.id === genreId).name}
+                        label={
+                          mediaType !== undefined
+                            ? genres.find(e => e.id == genreId) && genres.find(e => e.id === genreId).name
+                            : media.media_type === "movie"
+                              ? movieGenres.find(e => e.id === genreId) && movieGenres.find(e => e.id === genreId).name
+                              : tvGenres.find(e => e.id === genreId) && tvGenres.find(e => e.id === genreId).name
+                        }
                       />
                     ))}
                     {/* genres */}
