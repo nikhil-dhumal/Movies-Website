@@ -1,5 +1,5 @@
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined"
-import { ListItemButton, ListItemIcon, ListItemText, Menu, Typography } from "@mui/material"
+import { ListItemButton, ListItemIcon, ListItemText, Menu, Typography, Stack } from "@mui/material"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
@@ -16,6 +16,10 @@ const UserMenu = () => {
 
   const toggleMenu = (e) => setAnchorEl(e.currentTarget)
 
+  const capitalize = (name) => {
+    return name[0].toUpperCase() + name.slice(1)
+  }
+
   return (
     <>
       {user && (
@@ -25,7 +29,10 @@ const UserMenu = () => {
             sx={{ cursor: "pointer", userSelect: "none" }}
             onClick={toggleMenu}
           >
-            <TextAvatar text={user.displayName} />
+            <Stack direction="row" alignItems="center" gap={1}>
+              <TextAvatar text={user.displayName} />
+              {capitalize(user.displayName)}
+            </Stack>
           </Typography>
           <Menu
             open={Boolean(anchorEl)}
