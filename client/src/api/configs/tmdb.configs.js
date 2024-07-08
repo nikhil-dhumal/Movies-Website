@@ -3,9 +3,18 @@ const mediaType = {
   tv: "tv"
 }
 
-const mediaCategory = {
+const movieCategory = {
   popular: "popular",
-  top_rated: "top_rated"
+  top_rated: "top_rated",
+  now_playing: "now_playing",
+  upcoming: "upcoming"
+}
+
+const tvCategory = {
+  popular: "popular",
+  top_rated: "top_rated",
+  on_the_air: "on_the_air",
+  airing_today: "airing_today"
 }
 
 const backdropPath = (imgEndpoint) => `https://image.tmdb.org/t/p/original${imgEndpoint}`
@@ -16,7 +25,8 @@ const youtubePath = (videoId) => `https://www.youtube.com/embed/${videoId}?contr
 
 const tmdbConfigs = {
   mediaType,
-  mediaCategory,
+  movieCategory,
+  tvCategory,
   backdropPath,
   posterPath,
   youtubePath
