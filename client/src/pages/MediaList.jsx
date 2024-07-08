@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom"
 import tmdbConfigs from "../api/configs/tmdb.configs"
 import mediaApi from "../api/modules/media.api"
 import uiConfigs from "../configs/ui.configs"
-import HeroSlide from "../components/common/HeroTrendingSlide"
+import HeroSlide from "../components/common/HeroSlide"
 import MediaGrid from "../components/common/MediaGrid"
 import { setAppState } from "../redux/features/appStateSlice"
 import { setGlobalLoading } from "../redux/features/globalLoadingSlice"
@@ -89,7 +89,10 @@ const MediaList = () => {
           direction={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="space-between"
-          sx={{ marginBottom: 4 }}
+          sx={{ 
+            marginBottom: 4,
+            marginTop: 4
+          }}
         >
           <Typography fontWeight="700" variant="h5">
             {mediaType === tmdbConfigs.mediaType.movie ? "Movies" : "TV Series"}
