@@ -9,7 +9,7 @@ import MediaSlide from "../components/common/MediaSlide"
 const HomePage = () => {
   return (
     <>
-      <HeroSlide mediaType={tmdbConfigs.mediaType.movie} />
+      <HeroSlide/>
 
       <Box marginTop="-4rem" sx={{ ...uiConfigs.style.mainContent }}>
         <Container header="popular movies">

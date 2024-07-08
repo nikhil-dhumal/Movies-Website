@@ -18,41 +18,73 @@ import tmdbConfigs from "../../api/configs/tmdb.configs"
 import genreApi from "../../api/modules/genre.api"
 import mediaApi from "../../api/modules/media.api"
 
-const HeroSlide = ({ mediaType }) => {
+const HeroSlide = () => {
   const theme = useTheme()
   const dispatch = useDispatch()
 
-  const [movies, setMovies] = useState([])
-  const [genres, setGenres] = useState([])
+  const [medias, setmedias] = useState([])
+  const [movieGenres, setMovieGenres] = useState([])
+  const [tvGenres, setTvGenres] = useState([])
+
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+
+    return array;
+  }
 
   useEffect(() => {
     const getMedias = async () => {
-      const { response, err } = await mediaApi.getTrendingList({
-        mediaType,
+      const { response: movieResponse, err: movieErr } = await mediaApi.getTrendingList({
+        mediaType: tmdbConfigs.mediaType.movie,
         timeWindow: "week"
       })
 
-      if (response) setMovies(response.results)
-      if (err) toast.error(err.message)
+      const { response: tvResponse, err: tvErr } = await mediaApi.getTrendingList({
+        mediaType: tmdbConfigs.mediaType.tv,
+        timeWindow: "week"
+      })
+
+      if (movieResponse && tvResponse) {
+        const combinedMedias = [...movieResponse.results, ...tvResponse.results]
+        const shuffledMedias = shuffleArray(combinedMedias)
+        setmedias(shuffledMedias)
+      }
+
+      if (movieErr) toast.error(movieErr.message)
+      if (tvErr) toast.error(tvErr.message)
+
       dispatch(setGlobalLoading(false))
     }
 
     const getGenres = async () => {
       dispatch(setGlobalLoading(true))
-      const { response, err } = await genreApi.getList({ mediaType })
+      const { response: movieResponse, err: movieErr } = await genreApi.getList({ mediaType: tmdbConfigs.mediaType.movie })
+      const { response: tvResponse, err: tvErr } = await genreApi.getList({ mediaType: tmdbConfigs.mediaType.tv })
 
-      if (response) {
-        setGenres(response.genres)
+      if (movieResponse && tvResponse) {
+        setMovieGenres(movieResponse.genres)
+        setTvGenres(tvResponse.genres)
         getMedias()
       }
-      if (err) {
-        toast.error(err.message)
+
+      if (movieErr) {
+        toast.error(movieErr.message)
+        setGlobalLoading(false)
+      }
+
+      if (tvErr) {
+        toast.error(movieErr.message)
         setGlobalLoading(false)
       }
     }
 
     getGenres()
-  }, [mediaType, dispatch])
+  }, [tmdbConfigs.mediaType.tv, dispatch])
 
   return (
     <Box sx={{
@@ -80,7 +112,7 @@ const HeroSlide = ({ mediaType }) => {
       //   disableOnInteraction: false
       // }}
       >
-        {movies.map((movie, index) => (
+        {medias.map((media, index) => (
           <SwiperSlide key={index}>
             <Box sx={{
               paddingTop: {
@@ -91,7 +123,7 @@ const HeroSlide = ({ mediaType }) => {
               },
               backgroundPosition: "top",
               backgroundSize: "cover",
-              backgroundImage: `url(${tmdbConfigs.backdropPath(movie.backdrop_path || movie.poster_path)})`
+              backgroundImage: `url(${tmdbConfigs.backdropPath(media.backdrop_path || media.poster_path)})`
             }} />
             <Box sx={{
               width: "100%",
@@ -127,23 +159,27 @@ const HeroSlide = ({ mediaType }) => {
                       ...uiConfigs.style.typoLines(2, "left")
                     }}
                   >
-                    {movie.title || movie.name}
+                    {media.title || media.name}
                   </Typography>
                   {/* title */}
 
                   <Stack direction="row" spacing={1} alignItems="center">
                     {/* rating */}
-                    <CircularRate value={movie.vote_average} />
+                    <CircularRate value={media.vote_average} />
                     {/* rating */}
 
                     <Divider orientation="vertical" />
                     {/* genres */}
-                    {[...movie.genre_ids].splice(0, 2).map((genreId, index) => (
+                    {[...media.genre_ids].splice(0, 2).map((genreId, index) => (
                       <Chip
                         variant="filled"
                         color="primary"
                         key={index}
-                        label={genres.find(e => e.id === genreId) && genres.find(e => e.id === genreId).name}
+                        label={
+                          media.media_type === "movie"
+                            ? movieGenres.find(e => e.id === genreId) && movieGenres.find(e => e.id === genreId).name
+                            : tvGenres.find(e => e.id === genreId) && tvGenres.find(e => e.id === genreId).name
+                        }
                       />
                     ))}
                     {/* genres */}
@@ -153,7 +189,7 @@ const HeroSlide = ({ mediaType }) => {
                   <Typography variant="body1" sx={{
                     ...uiConfigs.style.typoLines(3)
                   }}>
-                    {movie.overview}
+                    {media.overview}
                   </Typography>
                   {/* overview */}
 
@@ -163,7 +199,7 @@ const HeroSlide = ({ mediaType }) => {
                     size="large"
                     startIcon={<PlayArrowIcon />}
                     component={Link}
-                    to={routesGen.mediaDetail(mediaType, movie.id)}
+                    to={routesGen.mediaDetail(tmdbConfigs.mediaType.tv, media.id)}
                     sx={{ width: "max-content" }}
                   >
                     watch now
