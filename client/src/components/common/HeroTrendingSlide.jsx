@@ -60,7 +60,10 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
       })
 
       if (movieResponse && tvResponse) {
-        const combinedMedias = [...movieResponse.results, ...tvResponse.results]
+        const combinedMedias = [
+          ...movieResponse.results.map(movie => ({...movie, media_type: "movie"})), 
+          ...tvResponse.results.map(tv => ({...tv, media_type: "tv"}))
+        ]
         const shuffledMedias = shuffleArray(combinedMedias)
         setmedias(shuffledMedias)
       }
