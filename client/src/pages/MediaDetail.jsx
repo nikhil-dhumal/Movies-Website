@@ -191,8 +191,7 @@ const MediaDetail = () => {
                     <LoadingButton
                       variant="text"
                       sx={{
-                        width: "max-content",
-                        "& .MuiButon-starIcon": { marginRight: "0" }
+                        "& .MuiButton-startIcon": { marginRight: "0" }
                       }}
                       size="large"
                       startIcon={isFavorite ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
