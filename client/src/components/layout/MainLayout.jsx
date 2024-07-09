@@ -9,12 +9,16 @@ import { useEffect } from "react"
 import { toast } from "react-toastify"
 import userApi from "../../api/modules/user.api"
 import favoriteApi from "../../api/modules/favorite.api"
+import genreApi from "../../api/modules/genre.api"
 import { setListFavorites, setUser } from "../../redux/features/userSlice"
+import { setgenres } from "../../redux/features/genresSlice"
+import { setGlobalLoading } from "../../redux/features/globalLoadingSlice"
 
 const MainLayout = () => {
   const dispatch = useDispatch()
 
   const { user } = useSelector((state) => state.user)
+  const { globalLoading } = useSelector((state) => state.globalLoading)
 
   useEffect(() => {
     const authUser = async () => {
@@ -24,7 +28,19 @@ const MainLayout = () => {
       if (err) dispatch(setUser(null))
     }
 
+    const getGenres = async () => {
+      dispatch(setGlobalLoading(true))
+      const { response, err } = await genreApi.getList()
+
+      if (response) dispatch(setgenres(response))
+      if (err) {
+        toast.error(err.message)
+        setGlobalLoading(false)
+      }
+    }
+
     authUser()
+    getGenres()
   }, [dispatch])
 
   useEffect(() => {
