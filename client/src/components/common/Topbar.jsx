@@ -2,15 +2,13 @@ import { useSelector, useDispatch } from "react-redux"
 import MenuIcon from "@mui/icons-material/Menu"
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined"
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined"
-import { AppBar, Box, Button, ButtonGroup, IconButton, Stack, Toolbar, useScrollTrigger } from "@mui/material"
-import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { AppBar, Box, Button, IconButton, Stack, Toolbar, useScrollTrigger } from "@mui/material"
 import { cloneElement, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import menuConfigs from "../../configs/menu.configs"
 import { themeModes } from "../../configs/theme.configs"
 import { setAuthModalOpen } from "../../redux/features/authModalSlice"
 import { setThemeMode } from "../../redux/features/themeModeSlice"
-import { setTimeWidth } from "../../redux/features/trendingSlice"
 import Logo from "./Logo"
 import UserMenu from "./UserMenu"
 import Sidebar from "./Sidebar"
@@ -31,11 +29,11 @@ const ScrollAppBar = ({ children, window }) => {
     }
   })
 }
+
 const Topbar = () => {
   const { user } = useSelector((state) => state.user)
   const { appState } = useSelector((state) => state.appState)
   const { themeMode } = useSelector((state) => state.themeMode)
-  const { trending } = useSelector((state) => state.trending)
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -52,7 +50,7 @@ const Topbar = () => {
     <>
       <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
       <ScrollAppBar>
-        <AppBar elevation={0} sx={{ zIndex: 9999 }}>
+        <AppBar elevation={0} sx={{ zIndex: 100 }}>
           <Toolbar sx={{ alignItems: "center", justifyContent: "space-between" }}>
             <Stack direction="row" spacing={1} alignItems="center">
               <IconButton
@@ -99,36 +97,6 @@ const Topbar = () => {
 
             {/* user menu */}
             <Stack direction="row" alignItems="center">
-              <Box
-                flexGrow={1}
-                sx={{
-                  justifySelf: "flex-end",
-                  display: { xs: "none", lg: "flex" },
-                  alignItems: "center",
-                  gap: 1,
-                  mr: 5
-                }}
-              >
-                <WhatshotIcon />
-                Trending
-                <ButtonGroup variant="contained">
-                  <Button
-                    onClick={() => dispatch(setTimeWidth("day"))}
-                    variant={trending === "day" ? "contained" : "text"}
-                    sx={{ color: "inherit" }}
-                  >
-                    Today
-                  </Button>
-                  <Button
-                    onClick={() => dispatch(setTimeWidth("week"))}
-                    variant={trending === "week" ? "contained" : "text"}
-                    sx={{ color: "inherit" }}
-                  >
-                    Week
-                  </Button>
-                </ButtonGroup>
-              </Box>
-
               {!user && <Button
                 variant="contained"
                 onClick={() => dispatch(setAuthModalOpen(true))}
