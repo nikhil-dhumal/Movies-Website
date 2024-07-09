@@ -1,5 +1,6 @@
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-import { Box, Button, Chip, Divider, Stack, Typography, useTheme } from "@mui/material"
+import { Box, Button, ButtonGroup, Chip, Divider, Stack, Typography, useTheme } from "@mui/material"
+import WhatshotIcon from "@mui/icons-material/Whatshot"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
@@ -19,13 +20,12 @@ import genreApi from "../../api/modules/genre.api"
 import mediaApi from "../../api/modules/media.api"
 
 const HeroSlide = () => {
-  const { trending } = useSelector((state) => state.trending)
   const theme = useTheme()
   const dispatch = useDispatch()
+  const { genres } = useSelector((state) => state.genres)
 
   const [medias, setmedias] = useState([])
-  const [movieGenres, setMovieGenres] = useState([])
-  const [tvGenres, setTvGenres] = useState([])
+  const [timeWidth, setTimeWidth] = useState("day")
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -42,12 +42,12 @@ const HeroSlide = () => {
     const getMedias = async () => {
       const { response: movieResponse, err: movieErr } = await mediaApi.getTrendingList({
         mediaType: tmdbConfigs.mediaType.movie,
-        timeWindow: trending
+        timeWindow: timeWidth
       })
 
       const { response: tvResponse, err: tvErr } = await mediaApi.getTrendingList({
         mediaType: tmdbConfigs.mediaType.tv,
-        timeWindow: trending
+        timeWindow: timeWidth
       })
 
       if (movieResponse && tvResponse) {
@@ -62,30 +62,8 @@ const HeroSlide = () => {
       dispatch(setGlobalLoading(false))
     }
 
-    const getGenres = async () => {
-      dispatch(setGlobalLoading(true))
-      const { response: movieResponse, err: movieErr } = await genreApi.getList({ mediaType: tmdbConfigs.mediaType.movie })
-      const { response: tvResponse, err: tvErr } = await genreApi.getList({ mediaType: tmdbConfigs.mediaType.tv })
-
-      if (movieResponse && tvResponse) {
-        setMovieGenres(movieResponse.genres)
-        setTvGenres(tvResponse.genres)
-        getMedias()
-      }
-
-      if (movieErr) {
-        toast.error(movieErr.message)
-        setGlobalLoading(false)
-      }
-
-      if (tvErr) {
-        toast.error(movieErr.message)
-        setGlobalLoading(false)
-      }
-    }
-
-    getGenres()
-  }, [dispatch, trending])
+    getMedias()
+  }, [dispatch, timeWidth])
 
   return (
     <Box sx={{
@@ -103,6 +81,39 @@ const HeroSlide = () => {
         ...uiConfigs.style.gradientBgImage[theme.palette.mode]
       }
     }}>
+      <Box
+        flexGrow={1}
+        sx={{
+          justifySelf: "flex-end",
+          display: { xs: "none", sm: "flex" },
+          alignItems: "center",
+          gap: 1,
+          position: "absolute",
+          right: "1%",
+          bottom: "5%",
+          zIndex: 100,
+          color: "text.primary"
+        }}
+      >
+        <WhatshotIcon />
+        Trending
+        <ButtonGroup variant="contained">
+          <Button
+            onClick={() => setTimeWidth("day")}
+            variant={timeWidth === "day" ? "contained" : "text"}
+            sx={{ color: "inherit" }}
+          >
+            Today
+          </Button>
+          <Button
+            onClick={() => setTimeWidth("week")}
+            variant={timeWidth === "week" ? "contained" : "text"}
+            sx={{ color: "inherit" }}
+          >
+            Week
+          </Button>
+        </ButtonGroup>
+      </Box>
       <Swiper
         grabCursor={true}
         loop={true}
@@ -113,7 +124,7 @@ const HeroSlide = () => {
           disableOnInteraction: false
         }}
       >
-        {medias.map((media, index) => (
+        {medias?.map((media, index) => (
           <SwiperSlide key={index}>
             <Box sx={{
               paddingTop: {
@@ -171,16 +182,12 @@ const HeroSlide = () => {
 
                     <Divider orientation="vertical" />
                     {/* genres */}
-                    {[...media.genre_ids].splice(0, 2).map((genreId, index) => (
+                    {[...media.genre_ids].splice(0, 2)?.map((genreId, index) => (
                       <Chip
                         variant="filled"
                         color="primary"
                         key={index}
-                        label={
-                          media.media_type === "movie"
-                            ? movieGenres.find(e => e.id === genreId) && movieGenres.find(e => e.id === genreId).name
-                            : tvGenres.find(e => e.id === genreId) && tvGenres.find(e => e.id === genreId).name
-                        }
+                        label={genres[media.media_type].find(e => e.id === genreId) && genres[media.media_type].find(e => e.id === genreId).name}
                       />
                     ))}
                     {/* genres */}
