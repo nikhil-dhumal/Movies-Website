@@ -5,7 +5,7 @@ const uiConfigs = {
         backgroundImage: "linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))"
       },
       light: {
-        backgroundImage: "linear-gradient(to top, rgba(245,245,245,0.3), rgba(0,0,0,0))"
+        backgroundImage: "linear-gradient(to top, rgba(245,245,245,1), rgba(0,0,0,0))"
       }
     },
     horizontalGradientBgImage: {
@@ -13,7 +13,7 @@ const uiConfigs = {
         backgroundImage: "linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0))"
       },
       light: {
-        backgroundImage: "linear-gradient(to right, rgba(245,245,245,0.3), rgba(0,0,0,0))"
+        backgroundImage: "linear-gradient(to right, rgba(245,245,245,0.5), rgba(0,0,0,0))"
       }
     },
     typoLines: (lines, textAlign) => ({
