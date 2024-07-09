@@ -15,6 +15,7 @@ const AutoSwiper = ({ children }) => {
       }
     }}>
       <Swiper
+        spaceBetween={5}
         loop={true}
         slidesPerView="auto"
         grabCursor={true}
