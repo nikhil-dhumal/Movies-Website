@@ -30,18 +30,6 @@ const getList = async (req, res) => {
   }
 }
 
-const getGenres = async (req, res) => {
-  try {
-    const { mediaType } = req.params
-
-    const response = await tmdbApi.mediaGenres({ mediaType })
-
-    return responseHandler.ok(res, response)
-  } catch {
-    responseHandler.error(res)
-  }
-}
-
 const search = async (req, res) => {
   try {
     const { mediaType } = req.params
@@ -92,17 +80,21 @@ const getDetail = async (req, res) => {
 
     media.reviews = await reviewModel.find({ mediaId }).populate("user").sort("-createdAt")
 
-    const seasons = await Promise.all(
-      media.seasons.map(async (season) => {
-        const info = await tmdbApi.tvSeasons({ mediaId, season: season.season_number })
-        return {
-          name: season.name,
-          episodes: info.episodes
-        }
-      })
-    )
+    if (mediaType == "tv") {
+      const seasons = await Promise.all(
+        media.seasons
+          .filter(season => season.name !== "Specials")
+          .map(async (season) => {
+            const info = await tmdbApi.tvSeasons({ mediaId, season: season.season_number });
+            return {
+              name: season.name,
+              episodes: info.episodes
+            }
+          })
+      )
 
-    media.seasons = seasons
+      media.seasons = seasons
+    }
 
     responseHandler.ok(res, media)
   } catch (e) {
@@ -110,4 +102,4 @@ const getDetail = async (req, res) => {
   }
 }
 
-export default { getTrendingList, getList, getGenres, search, getDetail }
+export default { getTrendingList, getList, search, getDetail }
