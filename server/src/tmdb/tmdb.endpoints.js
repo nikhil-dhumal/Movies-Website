@@ -7,6 +7,9 @@ const tmdbEndpoints = {
   mediaList: ({ mediaType, mediaCategory, page }) => tmdbConfig.getUrl(
     `${mediaType}/${mediaCategory}`, { page }
   ),
+  discoverMediaList: ({ mediaType, with_genres, page }) => tmdbConfig.getUrl(
+    `discover/${mediaType}`, { page, with_genres }
+  ),
   mediaDetail: ({ mediaType, mediaId }) => tmdbConfig.getUrl(
     `${mediaType}/${mediaId}`
   ),
