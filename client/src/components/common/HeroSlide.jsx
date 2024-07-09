@@ -1,7 +1,7 @@
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import { Box, Button, Chip, Divider, Stack, Typography, useTheme } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { Autoplay } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -15,15 +15,14 @@ import uiConfigs from "../../configs/ui.configs"
 import CircularRate from "./CircularRate"
 
 import tmdbConfigs from "../../api/configs/tmdb.configs"
-import genreApi from "../../api/modules/genre.api"
 import mediaApi from "../../api/modules/media.api"
 
 const HeroSlide = ({ mediaType, mediaCategory }) => {
   const theme = useTheme()
   const dispatch = useDispatch()
+  const { genres } = useSelector((state) => state.genres)
 
   const [medias, setmedias] = useState([])
-  const [genres, setGenres] = useState([])
 
   useEffect(() => {
     const getMedias = async () => {
@@ -36,23 +35,8 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
 
     }
 
-    const getGenres = async () => {
-      dispatch(setGlobalLoading(true))
-      const { response, err } = await genreApi.getList({ mediaType })
-
-      if (response) {
-        setGenres(response.genres)
-        getMedias()
-      }
-
-      if (err) {
-        toast.error(err.message)
-        setGlobalLoading(false)
-      }
-    }
-
-    getGenres()
-  }, [dispatch, mediaType, ])
+    getMedias()
+  }, [dispatch, mediaType])
 
   return (
     <Box sx={{
@@ -80,7 +64,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
           disableOnInteraction: false
         }}
       >
-        {medias.map((media, index) => (
+        {medias?.map((media, index) => (
           <SwiperSlide key={index}>
             <Box sx={{
               paddingTop: {
@@ -138,12 +122,12 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
 
                     <Divider orientation="vertical" />
                     {/* genres */}
-                    {[...media.genre_ids].splice(0, 2).map((genreId, index) => (
+                    {[...media.genre_ids].splice(0, 2)?.map((genreId, index) => (
                       <Chip
                         variant="filled"
                         color="primary"
                         key={index}
-                        label={genres.find(e => e.id == genreId) && genres.find(e => e.id === genreId).name}
+                        label={genres[mediaType].find(e => e.id == genreId) && genres[mediaType].find(e => e.id === genreId).name}
                       />
                     ))}
                     {/* genres */}
