@@ -5,6 +5,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined"
 import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined"
 import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined"
+import TheaterComedyIcon from "@mui/icons-material/TheaterComedy"
 
 const main = [
   {
@@ -24,6 +25,12 @@ const main = [
     path: "/tv",
     icon: <LiveTvOutlinedIcon />,
     state: "tv"
+  },
+  {
+    display: "genres",
+    path: "/genres",
+    icon: <TheaterComedyIcon />,
+    state: "genre"
   },
   {
     display: "search",
