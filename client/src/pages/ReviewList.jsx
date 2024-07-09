@@ -125,9 +125,7 @@ const ReviewList = () => {
   }
 
   const onRemoved = (id) => {
-    console.log({ reviews })
     const newReviews = [...reviews].filter(e => e.id !== id)
-    console.log({ newReviews })
     setReviews(newReviews)
     setFilteredReviews([...newReviews].splice(0, page * skip))
     setCount(count - 1)
@@ -137,7 +135,7 @@ const ReviewList = () => {
     <Box sx={{ ...uiConfigs.style.mainContent }}>
       <Container header={`Your reviews (${count})`}>
         <Stack spacing={2}>
-          {filteredReviews.map((item) => (
+          {filteredReviews?.map((item) => (
             <Box key={item.id}>
               <ReviewItem review={item} onRemoved={onRemoved} />
               <Divider sx={{
