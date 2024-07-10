@@ -1,4 +1,5 @@
 import responseHandler from "../handlers/response.handler.js"
+
 import tmdbApi from "../tmdb/tmdb.api.js"
 
 const getGenres = async (req, res) => {
@@ -16,10 +17,10 @@ const getGenres = async (req, res) => {
 
 const getDiscoverMediaList = async (req, res) => {
   try {
-    const { page, with_genres } = req.query
+    const { with_genres, sort_by, page } = req.query
     const { mediaType } = req.params
 
-    const response = await tmdbApi.discoverMediaList({ mediaType, with_genres, page })
+    const response = await tmdbApi.discoverMediaList({ mediaType, with_genres, sort_by, page })
 
     return responseHandler.ok(res, response)
   } catch {

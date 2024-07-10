@@ -1,4 +1,5 @@
 import axiosClient from "../axios/axios.client.js"
+
 import tmdbEndpoints from "./tmdb.endpoints.js"
 
 const tmdbApi = {
@@ -8,8 +9,8 @@ const tmdbApi = {
   mediaList: async ({ mediaType, mediaCategory, page }) => await axiosClient.get(
     tmdbEndpoints.mediaList({ mediaType, mediaCategory, page })
   ),
-  discoverMediaList: async ({ mediaType, with_genres, page }) => await axiosClient.get(
-    tmdbEndpoints.discoverMediaList({ mediaType, with_genres, page })
+  discoverMediaList: async ({ mediaType, with_genres, sort_by, page }) => await axiosClient.get(
+    tmdbEndpoints.discoverMediaList({ mediaType, with_genres, sort_by, page })
   ),
   mediaDetail: async ({ mediaType, mediaId }) => await axiosClient.get(
     tmdbEndpoints.mediaDetail({ mediaType, mediaId })

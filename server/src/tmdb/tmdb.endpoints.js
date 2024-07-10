@@ -7,8 +7,8 @@ const tmdbEndpoints = {
   mediaList: ({ mediaType, mediaCategory, page }) => tmdbConfig.getUrl(
     `${mediaType}/${mediaCategory}`, { page }
   ),
-  discoverMediaList: ({ mediaType, with_genres, page }) => tmdbConfig.getUrl(
-    `discover/${mediaType}`, { page, with_genres }
+  discoverMediaList: ({ mediaType, with_genres, sort_by, page }) => tmdbConfig.getUrl(
+    `discover/${mediaType}`, { page, with_genres, sort_by }
   ),
   mediaDetail: ({ mediaType, mediaId }) => tmdbConfig.getUrl(
     `${mediaType}/${mediaId}`
@@ -24,7 +24,7 @@ const tmdbEndpoints = {
   ),
   mediaRecommend: ({ mediaType, mediaId }) => tmdbConfig.getUrl(
     `${mediaType}/${mediaId}/recommendations`
-  ), 
+  ),
   tvSeasons: ({ mediaId, season }) => tmdbConfig.getUrl(
     `tv/${mediaId}/season/${season}`
   ),
