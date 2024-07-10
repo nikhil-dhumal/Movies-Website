@@ -8,7 +8,7 @@ import menuConfigs from "../../configs/menu.configs"
 
 const Footer = () => {
   return (
-    <Paper square={true} sx={{ backgroundImage: "unset", p: "1rem" }}>
+    <Paper square={true} sx={{ backgroundImage: "unset", p: { xs: "0.5rem" , sm: "1rem" } }}>
       <Stack
         alignItems="center"
         justifyContent="space-between"
