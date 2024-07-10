@@ -1,4 +1,4 @@
-# Movies Website: [MoonFlix]
+# Movies Website: MoonFlix
 
 This project utilizes the MERN (MongoDB, Express.js, React.js, Node.js) stack to create a comprehensive platform for exploring entertainment content. Leveraging the TMDB API, it provides detailed information about movies, TV series, and personalities. The user interface is designed using Material-UI (MUI), ensuring a modern and intuitive experience. Whether you're looking for the latest movies, binge-worthy TV shows, or insights into your favorite actors, our website offers a seamless way to discover and explore entertainment content.
 
