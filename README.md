@@ -141,6 +141,39 @@ The backend runs at http://localhost:5000.
 ### Step 5: Accessing the Application
 Open your web browser and go to http://localhost:3000 to view the frontend application.
 
-## Sreenshots
+## Screenshots
+
+### Desktop
+
+#### Home Page
+![Home Page](./screenshots/desktop/homepage.png)
+
+#### Movies Page
+![Movies Page](./screenshots/desktop/moviespage.png)
+
+#### Genres Page
+![Genres Page](./screenshots/desktop/genrespage.png)
+
+#### Media Details
+![Media Details](./screenshots/desktop/mediadetails.png)
+
+### Mobile
+
+#### Home Page
+![Home Page](./screenshots/mobile/homepage.png)
+
+#### TV Page
+![TV Page](./screenshots/mobile/tvpage.png)
+
+#### Genres Page
+![Genres Page](./screenshots/mobile/genrespage.png)
+
+#### Sidebar
+![Sidebar](./screenshots/mobile/sidebar.png)
 
 ## Acknowledgements
+
+- **Video Tutorial**: I would like to acknowledge the YouTube video tutorial by [Tran Anh Tuat](https://www.youtube.com/watch?v=j-Sn1b4OlLA) for providing valuable insights during the development of this project.
+
+- **GitHub Repository**: I referenced code and ideas from the GitHub repository by Tran Anh Tuat at [github.com/trananhtuat/fullstack-mern-movie-2022](https://github.com/trananhtuat/fullstack-mern-movie-2022). It served as a helpful resource throughout the development process.
+
