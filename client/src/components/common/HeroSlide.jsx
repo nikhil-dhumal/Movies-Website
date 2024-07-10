@@ -39,7 +39,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
     }
 
     getMedias()
-  }, [dispatch, mediaType])
+  }, [dispatch, mediaType, mediaCategory])
 
   return (
     <Box sx={{
