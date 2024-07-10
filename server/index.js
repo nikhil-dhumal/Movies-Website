@@ -1,17 +1,18 @@
-import express from "express"
-import cookieParser from "cookie-parser"
 import cors from "cors"
+import cookieParser from "cookie-parser"
+import express from "express"
 import http from "http"
 import mongoose from "mongoose"
 import "dotenv/config"
+
 import routes from "./src/routes/index.route.js"
 
 const app = express()
 
 app.use(cors())
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(cookieParser())
 
 app.use("/api/v2", routes)
 

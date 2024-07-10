@@ -1,9 +1,12 @@
 import responseHandler from "../handlers/response.handler.js"
-import tmdbApi from "../tmdb/tmdb.api.js"
+
+import tokenMiddlerware from "../middlewares/token.middleware.js"
+
 import userModel from "../models/user.model.js"
 import favoriteModel from "../models/favorite.model.js"
 import reviewModel from "../models/review.model.js"
-import tokenMiddlerware from "../middlewares/token.middleware.js"
+
+import tmdbApi from "../tmdb/tmdb.api.js"
 
 const getTrendingList = async (req, res) => {
   try {
@@ -85,7 +88,7 @@ const getDetail = async (req, res) => {
         media.seasons
           .filter(season => season.name !== "Specials")
           .map(async (season) => {
-            const info = await tmdbApi.tvSeasons({ mediaId, season: season.season_number });
+            const info = await tmdbApi.tvSeasons({ mediaId, season: season.season_number })
             return {
               name: season.name,
               episodes: info.episodes
