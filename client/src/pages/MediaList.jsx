@@ -38,7 +38,7 @@ const MediaList = () => {
   useEffect(() => {
     dispatch(setAppState(mediaType))
     window.scrollTo(0, 0)
-  }, [mediaType, dispatch])
+  }, [mediaType, currCategory, dispatch])
 
   useEffect(() => {
     const getMedias = async () => {
