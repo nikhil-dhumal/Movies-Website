@@ -131,7 +131,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
                           variant="filled"
                           color="primary"
                           key={index}
-                          label={genres[mediaType].find(e => e.id == genreId) && genres[mediaType].find(e => e.id === genreId).name}
+                          label={genres[mediaType].find(e => e.id === genreId) && genres[mediaType].find(e => e.id === genreId).name}
                         />
                       ))}
                       {/* genres */}
