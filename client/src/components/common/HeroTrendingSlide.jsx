@@ -129,7 +129,7 @@ const HeroSlide = () => {
           medias?.map((media, index) => (
             <SwiperSlide key={index}>
               <Box sx={{
-                paddingTop: {
+                pt: {
                   xs: "130%",
                   sm: "80%",
                   md: "60%",
@@ -153,13 +153,13 @@ const HeroSlide = () => {
                 position: "absolute",
                 top: 0,
                 left: 0,
-                paddingX: { sm: "10px", md: "5rem", lg: "10rem" }
+                px: { sm: "10px", md: "5rem", lg: "10rem" }
               }}>
                 <Box sx={{
                   height: "100%",
                   display: "flex",
                   alignItems: "center",
-                  paddingX: "30px",
+                  px: "30px",
                   color: "text.primary",
                   width: { sm: "unset", md: "30%", lg: "40%" }
                 }}>

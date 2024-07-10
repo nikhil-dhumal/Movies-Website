@@ -106,7 +106,7 @@ const PasswordUpdate = () => {
               type="submit"
               variant="contained"
               fullWidth
-              sx={{ marginTop: 4 }}
+              sx={{ mt: 4 }}
               loading={onRequest}
             >
               update password

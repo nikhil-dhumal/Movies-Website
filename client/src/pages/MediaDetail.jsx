@@ -130,10 +130,10 @@ const MediaDetail = () => {
               {/* poster */}
               <Box sx={{
                 width: { xs: "70%", sm: "50%", md: "40%" },
-                margin: { xs: "0 auto 2rem", md: "0 2rem 0 0" }
+                m: { xs: "0 auto 2rem", md: "0 2rem 0 0" }
               }}>
                 <Box sx={{
-                  paddingTop: "140%",
+                  pt: "140%",
                   ...uiConfigs.style.backgroundImage(tmdbConfigs.posterPath(media.poster_path || media.backdrop_path))
                 }} />
               </Box>
@@ -191,7 +191,7 @@ const MediaDetail = () => {
                     <LoadingButton
                       variant="text"
                       sx={{
-                        "& .MuiButton-startIcon": { marginRight: "0" }
+                        "& .MuiButton-startIcon": { mr: "0" }
                       }}
                       size="large"
                       startIcon={isFavorite ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}

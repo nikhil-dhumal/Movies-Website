@@ -127,7 +127,7 @@ const SignupForm = ({ switchAuthState }) => {
 
       {
         errorMessage && (
-          <Box sx={{ marginTop: 2 }}>
+          <Box sx={{ mt: 2 }}>
             <Alert severity="error" variant="outlined" >{errorMessage}</Alert>
           </Box>
         )

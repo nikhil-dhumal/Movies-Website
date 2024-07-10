@@ -85,7 +85,7 @@ const MediaItem = ({ media, mediaType }) => {
                   top: "50%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
-                  "& .MuiButton-startIcon": { marginRight: "-4px" }
+                  "& .MuiButton-startIcon": { mr: "-4px" }
                 }}
               />
               <Box

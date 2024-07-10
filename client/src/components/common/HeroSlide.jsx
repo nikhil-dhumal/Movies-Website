@@ -70,7 +70,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
           medias?.map((media, index) => (
             <SwiperSlide key={index}>
               <Box sx={{
-                paddingTop: {
+                pt: {
                   xs: "130%",
                   sm: "80%",
                   md: "60%",

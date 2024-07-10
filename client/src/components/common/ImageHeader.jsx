@@ -9,7 +9,7 @@ const ImageHeader = ({ imgPath }) => {
     <Box sx={{
       zIndex: "-1",
       position: "relative",
-      paddingTop: { xs: "60%", sm: "40%", md: "35%" },
+      pt: { xs: "60%", sm: "40%", md: "35%" },
       backgroundPosition: "top",
       backgroundSize: "cover",
       backgroundImage: `url(${imgPath})`,

@@ -123,7 +123,7 @@ const MediaSearch = () => {
           <MediaGrid medias={medias} mediaType={mediaType} />
           {
             medias.length !== 0 && <LoadingButton
-              sx={{ marginTop: { xs: 2, lg: 3 } }}
+              sx={{ mt: { xs: 2, lg: 3 } }}
               loading={onSearch}
               fullWidth
               color="primary"

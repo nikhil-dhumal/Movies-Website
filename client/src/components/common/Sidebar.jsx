@@ -35,7 +35,7 @@ const Sidebar = ({ open, toggleSidebar }) => {
         </Stack>
       </Toolbar>
       <List sx={{ px: "30px" }}>
-        <Typography variant="h6" marginBottom="20px">MENU</Typography>
+        <Typography variant="h6" mb="20px">MENU</Typography>
         {
           menuConfigs.main.map((item, index) => (
             <ListItemButton
@@ -59,14 +59,14 @@ const Sidebar = ({ open, toggleSidebar }) => {
 
         {
           user && (<>
-            <Typography variant="h6" marginBottom="20px">PERSONAL</Typography>
+            <Typography variant="h6" mb="20px">PERSONAL</Typography>
             {
               menuConfigs.user.map((item, index) => (
                 <ListItemButton
                   key={index}
                   sx={{
                     borderRadius: "10px",
-                    marginY: 1,
+                    my: 1,
                     backgroundColor: appState.includes(item.state) ? "primary.main" : "unset"
                   }}
                   component={Link}

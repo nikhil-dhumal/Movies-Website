@@ -143,7 +143,7 @@ const MediaReview = ({ reviews, media, mediaType }) => {
   return (
     <>
       <Container header={`Reviews (${reviewCount})`}>
-        <Stack spacing={4} marginBottom={2}>
+        <Stack spacing={4} mb={2}>
           {
             filteredReviews?.map((item) => (
               item.user ? <Box key={item.id}>
