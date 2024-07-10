@@ -28,7 +28,7 @@ const sortMethods = [
   "revenue.asc",
   "revenue.desc",
   "primary_release_date.asc",
-  "oprimary_release_date.desc",
+  "primary_release_date.desc",
   "title.asc",
   "title.desc",
   "vote_count.asc",
@@ -44,8 +44,8 @@ const GenereList = () => {
   const [medias, setMedias] = useState([])
   const [mediaLoading, setMediaLoading] = useState(false)
   const [mediaType, setMediaType] = useState(tmdbConfigs.mediaType.movie)
-  const [selectedGenre, setSelectedGenre] = useState(null)
-  const [sortMethod, setSortMethod] = useState(null)
+  const [selectedGenre, setSelectedGenre] = useState(0)
+  const [sortMethod, setSortMethod] = useState(3)
 
   const prevGenre = usePrevious(selectedGenre)
   const prevMediaType = usePrevious(mediaType)
@@ -58,13 +58,36 @@ const GenereList = () => {
   }, [mediaType, selectedGenre, sortMethod])
 
   useEffect(() => {
+    if (mediaType !== prevMediaType) {
+      setSelectedGenre(0)
+      setMedias([])
+      setSortMethod(3)
+      setCurrPage(1)
+    }
+  }, [mediaType])
+
+  useEffect(() => {
+    if (selectedGenre !== prevGenre) {
+      setMedias([])
+      setCurrPage(1)
+    }
+  }, [selectedGenre])
+
+  useEffect(() => {
+    if (sortMethod !== prevSortMethod) {
+      setMedias([])
+      setCurrPage(1)
+    }
+  }, [sortMethod])
+
+  useEffect(() => {
     const getMedias = async () => {
       if (currPage === 1) dispatch(setGlobalLoading(true))
       setMediaLoading(true)
 
       const { response, err } = await genreApi.getMediasList({
         mediaType,
-        genre: genres[mediaType][selectedGenre].id,
+        genre: genres[mediaType][selectedGenre]?.id,
         sort_by: sortMethods[sortMethod],
         page: currPage
       })
@@ -79,29 +102,14 @@ const GenereList = () => {
       }
     }
 
-    if (mediaType !== prevMediaType) {
-      setSelectedGenre(null)
-      setMedias([])
-      setSortMethod(null)
-      setCurrPage(1)
-    }
-
-    if (selectedGenre !== prevGenre) {
-      setMedias([])
-      setCurrPage(1)
-    }
-
-    if (sortMethod !== prevSortMethod) {
-      setMedias([])
-      setCurrPage(1)
-    }
-
-    if (selectedGenre) getMedias()
+    getMedias()
   }, [
     mediaType,
     selectedGenre,
     sortMethod,
     prevMediaType,
+    prevGenre,
+    prevSortMethod,
     currPage,
     dispatch
   ])
@@ -155,20 +163,22 @@ const GenereList = () => {
       <Box sx={{ ...uiConfigs.style.mainContent, mb: 2 }}>
         <Box
           sx={{
-            mt: 20
+            mt: { xs: 20, sm: 12 }
           }}
         >
           <MediaGrid medias={medias} mediaType={mediaType} />
           {
-            medias.length !== 0 && <LoadingButton
-              sx={{ mt: { xs: 2, lg: 3 } }}
-              fullWidth
-              color="primary"
-              loading={mediaLoading}
-              onClick={onLoadMore}
-            >
-              load more
-            </LoadingButton>
+            medias.length !== 0 && (
+              <LoadingButton
+                sx={{ mt: { xs: 2, lg: 3 } }}
+                fullWidth
+                color="primary"
+                loading={mediaLoading}
+                onClick={onLoadMore}
+              >
+                Load more
+              </LoadingButton>
+            )
           }
         </Box>
       </Box>
