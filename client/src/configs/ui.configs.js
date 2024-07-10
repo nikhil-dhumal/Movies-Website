@@ -25,8 +25,8 @@ const uiConfigs = {
     }),
     mainContent: {
       maxWidth: "1366px",
-      margin: "auto",
-      padding: 2
+      m: "auto",
+      p: 2
     },
     backgroundImage: (imgPath) => ({
       position: "relative",
