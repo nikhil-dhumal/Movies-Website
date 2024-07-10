@@ -1,11 +1,11 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined"
 import SlideshowOutlinedIcon from "@mui/icons-material/SlideshowOutlined"
 import LiveTvOutlinedIcon from "@mui/icons-material/LiveTvOutlined"
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
+import TheaterComedyIcon from "@mui/icons-material/TheaterComedy"
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined"
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
 import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined"
 import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined"
-import TheaterComedyIcon from "@mui/icons-material/TheaterComedy"
 
 const main = [
   {

@@ -1,11 +1,14 @@
-import { LoadingButton } from "@mui/lab"
-import { Alert, Box, Button, Stack, TextField } from "@mui/material"
-import { useFormik } from "formik"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { toast } from "react-toastify"
+import { useFormik } from "formik"
 import * as Yup from "yup"
+
+import { LoadingButton } from "@mui/lab"
+import { Alert, Box, Button, Stack, TextField } from "@mui/material"
+
 import userApi from "../../api/modules/user.api"
+
 import { setAuthModalOpen } from "../../redux/features/authModalSlice"
 import { setUser } from "../../redux/features/userSlice"
 
@@ -31,7 +34,6 @@ const SigninForm = ({ switchAuthState }) => {
     onSubmit: async values => {
       setErrorMessage(undefined)
       setIsLoginRequest(true)
-      console.log("asdasdasdasd")
       const { response, err } = await userApi.signin(values)
       setIsLoginRequest(false)
 
@@ -78,7 +80,7 @@ const SigninForm = ({ switchAuthState }) => {
         fullWidth
         size="large"
         variant="contained"
-        sx={{ marginTop: 4 }}
+        sx={{ mt: 4 }}
         loading={isLoginRequest}
       >
         sign in
@@ -86,17 +88,19 @@ const SigninForm = ({ switchAuthState }) => {
 
       <Button
         fullWidth
-        sx={{ marginTop: 1 }}
+        sx={{ mt: 1 }}
         onClick={() => switchAuthState()}
       >
         sign up
       </Button>
 
-      {errorMessage && (
-        <Box sx={{ marginTop: 2 }}>
-          <Alert severity="error" variant="outlined" >{errorMessage}</Alert>
-        </Box>
-      )}
+      {
+        errorMessage && (
+          <Box sx={{ marginTop: 2 }}>
+            <Alert severity="error" variant="outlined" >{errorMessage}</Alert>
+          </Box>
+        )
+      }
     </Box>
   )
 }

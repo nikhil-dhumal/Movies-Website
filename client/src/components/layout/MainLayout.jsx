@@ -1,24 +1,27 @@
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { toast } from "react-toastify"
+
 import { Box } from "@mui/material"
 import { Outlet } from "react-router-dom"
-import Footer from "../common/Footer"
-import GlobalLoading from "../common/GlobalLoading"
-import Topbar from "../common/Topbar"
-import AuthModal from "../common/AuthModal"
-import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
-import { toast } from "react-toastify"
+
 import userApi from "../../api/modules/user.api"
 import favoriteApi from "../../api/modules/favorite.api"
 import genreApi from "../../api/modules/genre.api"
-import { setListFavorites, setUser } from "../../redux/features/userSlice"
+
+import AuthModal from "../common/AuthModal"
+import Footer from "../common/Footer"
+import GlobalLoading from "../common/GlobalLoading"
+import Topbar from "../common/Topbar"
+
 import { setgenres } from "../../redux/features/genresSlice"
 import { setGlobalLoading } from "../../redux/features/globalLoadingSlice"
+import { setListFavorites, setUser } from "../../redux/features/userSlice"
 
 const MainLayout = () => {
   const dispatch = useDispatch()
 
   const { user } = useSelector((state) => state.user)
-  const { globalLoading } = useSelector((state) => state.globalLoading)
 
   useEffect(() => {
     const authUser = async () => {

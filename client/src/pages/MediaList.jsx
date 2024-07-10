@@ -1,33 +1,39 @@
-import { LoadingButton } from "@mui/lab"
-import { Box, Button, Stack, Typography } from "@mui/material"
 import { useEffect, useState, useMemo } from "react"
 import { useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
-import tmdbConfigs from "../api/configs/tmdb.configs"
+import { toast } from "react-toastify"
+
+import { LoadingButton } from "@mui/lab"
+import { Box, Stack, Typography } from "@mui/material"
+
 import mediaApi from "../api/modules/media.api"
-import uiConfigs from "../configs/ui.configs"
+
+import CategoryToggle from "../components/common/CategoryToggle"
 import HeroSlide from "../components/common/HeroSlide"
 import MediaGrid from "../components/common/MediaGrid"
-import { setAppState } from "../redux/features/appStateSlice"
-import { setGlobalLoading } from "../redux/features/globalLoadingSlice"
-import { toast } from "react-toastify"
+
+import tmdbConfigs from "../api/configs/tmdb.configs"
+import uiConfigs from "../configs/ui.configs"
+
 import usePrevious from "../hooks/usePrevious"
 
+import { setAppState } from "../redux/features/appStateSlice"
+import { setGlobalLoading } from "../redux/features/globalLoadingSlice"
+
 const MediaList = () => {
-  const { mediaType } = useParams()
-
-  const [medias, setMedias] = useState([])
-  const [mediaLoading, setMediaLoading] = useState(false)
-  const [currCategory, setCurrCategory] = useState(0)
-  const [currPage, setCurrPage] = useState(1)
-
-  const prevMediaType = usePrevious(mediaType)
   const dispatch = useDispatch()
 
+  const { mediaType } = useParams()
+
+  const [currCategory, setCurrCategory] = useState(0)
+  const [currPage, setCurrPage] = useState(1)
+  const [medias, setMedias] = useState([])
+  const [mediaLoading, setMediaLoading] = useState(false)
+
+  const prevMediaType = usePrevious(mediaType)
+
   const movieCategories = useMemo(() => ["popular", "top_rated", "now_playing", "upcoming"], [])
-  const movieCategory = ["popular", "top rated", "now_playing", "upcoming"]
   const tvCategories = useMemo(() => ["popular", "top_rated", "on_the_air", "airing_today"], [])
-  const tvCategory = ["popular", "top rated", "on_the_air", "airing_today"]
 
   useEffect(() => {
     dispatch(setAppState(mediaType))
@@ -83,61 +89,24 @@ const MediaList = () => {
   return (
     <>
       <HeroSlide mediaType={mediaType} mediaCategory={mediaType === tmdbConfigs.mediaType.movie ? movieCategories[currCategory] : tvCategories[currCategory]} />
-      <Box sx={{ ...uiConfigs.style.mainContent }}>
+      <Box sx={{ ...uiConfigs.style.mainContent, mb: 2 }}>
         <Stack
           spacing={2}
-          direction={{ xs: "column", md: "row" }}
+          direction="row"
           alignItems="center"
           justifyContent="space-between"
-          sx={{ 
-            marginBottom: 4,
-            marginTop: 4
+          sx={{
+            mb: 4
           }}
         >
           <Typography fontWeight="700" variant="h5">
             {mediaType === tmdbConfigs.mediaType.movie ? "Movies" : "TV Series"}
           </Typography>
-          <Stack direction="row" spacing={2}>
-            {
-              mediaType === tmdbConfigs.mediaType.movie
-                ? (
-                  movieCategory.map((cate, index) => (
-                    <Button
-                      key={index}
-                      size="large"
-                      variant={currCategory === index ? "contained" : "text"}
-                      sx={{
-                        color: currCategory === index ? "primary.contrastText" : "text.primary"
-                      }}
-                      onClick={() => onCategoryChange(index)}
-                    >
-                      {cate}
-                    </Button>
-                  ))
-                ) : (
-                  tvCategory.map((cate, index) => (
-                    <Button
-                      key={index}
-                      size="large"
-                      variant={currCategory === index ? "contained" : "text"}
-                      sx={{
-                        color: currCategory === index ? "primary.contrastText" : "text.primary"
-                      }}
-                      onClick={() => onCategoryChange(index)}
-                    >
-                      {cate}
-                    </Button>
-                  ))
-                )
-            }
-          </Stack>
+          <CategoryToggle mediaType={mediaType} currCategory={currCategory} onCategoryChange={onCategoryChange} />
         </Stack>
-        <MediaGrid
-          medias={medias}
-          mediaType={mediaType}
-        />
+        <MediaGrid medias={medias} mediaType={mediaType} />
         <LoadingButton
-          sx={{ marginTop: 8 }}
+          sx={{ mt: { xs: 2, lg: 3 } }}
           fullWidth
           color="primary"
           loading={mediaLoading}

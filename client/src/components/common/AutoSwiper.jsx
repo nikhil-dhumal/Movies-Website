@@ -1,6 +1,7 @@
-import { Box } from "@mui/material"
 import { Swiper } from "swiper/react"
 import { Autoplay } from "swiper/modules"
+
+import { Box } from "@mui/material"
 
 const AutoSwiper = ({ children }) => {
   return (
@@ -16,7 +17,6 @@ const AutoSwiper = ({ children }) => {
     }}>
       <Swiper
         spaceBetween={5}
-        loop={true}
         slidesPerView="auto"
         grabCursor={true}
         style={{ width: "100%", height: "max-content" }}

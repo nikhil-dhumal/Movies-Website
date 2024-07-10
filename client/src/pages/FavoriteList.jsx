@@ -1,13 +1,18 @@
-import DeleteIcon from "@mui/icons-material/Delete"
-import { LoadingButton } from "@mui/lab"
-import { Box, Button, Grid } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { toast } from "react-toastify"
-import MediaItem from "../components/common/MediaItem"
-import Container from "../components/common/Container"
-import uiConfigs from "../configs/ui.configs"
+
+import { LoadingButton } from "@mui/lab"
+import { Box, Button, ButtonGroup, Grid } from "@mui/material"
+import DeleteIcon from "@mui/icons-material/Delete"
+
 import favoriteApi from "../api/modules/favorite.api"
+
+import Container from "../components/common/Container"
+import MediaItem from "../components/common/MediaItem"
+
+import uiConfigs from "../configs/ui.configs"
+
 import { setGlobalLoading } from "../redux/features/globalLoadingSlice"
 import { removeFavorite } from "../redux/features/userSlice"
 
@@ -35,7 +40,7 @@ const FavoriteItem = ({ media, onRemoved }) => {
     <LoadingButton
       fullWidth
       variant="contained"
-      sx={{ marginTop: 2 }}
+      sx={{ mt: 1, mb: 2 }}
       startIcon={<DeleteIcon />}
       loadingPosition="start"
       loading={onRequest}
@@ -47,12 +52,12 @@ const FavoriteItem = ({ media, onRemoved }) => {
 }
 
 const FavoriteList = () => {
+  const dispatch = useDispatch()
+
+  const [count, setCount] = useState(0)
   const [medias, setMedias] = useState([])
   const [filteredMedias, setFilteredMedias] = useState([])
   const [page, setPage] = useState(1)
-  const [count, setCount] = useState(0)
-
-  const dispatch = useDispatch()
 
   const skip = 8
 
@@ -86,18 +91,29 @@ const FavoriteList = () => {
   }
 
   return (
-    <Box sx={{ ...uiConfigs.style.mainContent }}>
+    <Box sx={{ ...uiConfigs.style.mainContent, mb: 2 }}>
       <Container header={`Your favorites (${count})`}>
-        <Grid container spacing={1} sx={{ marginRight: "-8px!important" }}>
-          {filteredMedias.map((media, index) => (
-            <Grid item xs={6} sm={4} md={3} key={index}>
-              <FavoriteItem media={media} onRemoved={onRemoved} />
-            </Grid>
-          ))}
+        <Grid container spacing={1} sx={{ mx: "-8px!important" }}>
+          {
+            filteredMedias?.map((media, index) => (
+              <Grid item xs={6} sm={4} md={3} key={index}>
+                <FavoriteItem media={media} onRemoved={onRemoved} />
+              </Grid>
+            ))
+          }
         </Grid>
-        {filteredMedias.length < medias.length && (
-          <Button onClick={onLoadMore}>load more</Button>
-        )}
+        {
+          filteredMedias.length < medias.length && (
+            <Button
+              sx={{ mt: "0 !important" }}
+              fullWidth
+              color="primary"
+              onClick={onLoadMore}
+            >
+              load more
+            </Button>
+          )
+        }
       </Container>
     </Box>
   )

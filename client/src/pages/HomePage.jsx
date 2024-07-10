@@ -1,17 +1,19 @@
-import React from 'react'
-import HeroTrendingSlide from '../components/common/HeroTrendingSlide'
-import tmdbConfigs from "../api/configs/tmdb.configs"
-import { Box } from '@mui/material'
-import uiConfigs from "../configs/ui.configs"
+import React from "react"
+
+import { Box } from "@mui/material"
+
 import Container from "../components/common/Container"
+import HeroTrendingSlide from "../components/common/HeroTrendingSlide"
 import MediaSlide from "../components/common/MediaSlide"
+
+import tmdbConfigs from "../api/configs/tmdb.configs"
+import uiConfigs from "../configs/ui.configs"
 
 const HomePage = () => {
   return (
     <>
-      <HeroTrendingSlide/>
-
-      <Box marginTop="-4rem" sx={{ ...uiConfigs.style.mainContent }}>
+      <HeroTrendingSlide />
+      <Box sx={{ ...uiConfigs.style.mainContent, mt: "-4rem !important" }}>
         {[
           { header: "popular movies", mediaType: tmdbConfigs.mediaType.movie, mediaCategory: tmdbConfigs.movieCategory.popular },
           { header: "popular series", mediaType: tmdbConfigs.mediaType.tv, mediaCategory: tmdbConfigs.tvCategory.popular },

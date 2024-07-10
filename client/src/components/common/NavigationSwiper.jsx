@@ -1,6 +1,7 @@
-import { Box } from "@mui/material"
-import { Navigation, Pagination } from "swiper/modules"
 import { Swiper } from "swiper/react"
+import { Navigation, Pagination } from "swiper/modules"
+
+import { Box } from "@mui/material"
 
 const NavigationSwiper = ({ children }) => {
   return (
@@ -8,7 +9,7 @@ const NavigationSwiper = ({ children }) => {
       "& .swiper-slide": {
         width: "100%",
         opacity: "0.6",
-        paddingBottom: "3rem"
+        pb: "3rem"
       },
       "& .swiper-slide-active": { opacity: 1 },
       "& .swiper-pagination-bullet": {
@@ -21,7 +22,7 @@ const NavigationSwiper = ({ children }) => {
         }
       },
       "& .swiper": {
-        paddingX: { xs: "1rem", md: "4rem" }
+        px: { xs: "1rem", md: "4rem" }
       }
     }}>
       <Swiper

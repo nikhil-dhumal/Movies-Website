@@ -1,22 +1,28 @@
-import { LoadingButton } from "@mui/lab"
-import { Box, Stack, TextField } from "@mui/material"
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 import { useFormik } from "formik"
 import * as Yup from "yup"
-import Container from "../components/common/Container"
-import uiConfigs from "../configs/ui.configs"
-import { useState } from "react"
+
+import { LoadingButton } from "@mui/lab"
+import { Box, Stack, TextField } from "@mui/material"
+
 import userApi from "../api/modules/user.api"
-import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
+
+import Container from "../components/common/Container"
+
+import uiConfigs from "../configs/ui.configs"
+
 import { setUser } from "../redux/features/userSlice"
 import { setAuthModalOpen } from "../redux/features/authModalSlice"
 
 const PasswordUpdate = () => {
-  const [onRequest, setOnRequest] = useState(false)
-
   const navigate = useNavigate()
+
   const dispatch = useDispatch()
+
+  const [onRequest, setOnRequest] = useState(false)
 
   const form = useFormik({
     initialValues: {

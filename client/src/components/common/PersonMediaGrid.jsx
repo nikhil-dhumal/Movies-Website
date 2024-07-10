@@ -1,26 +1,31 @@
-import { Button, Grid } from "@mui/material"
 import { useEffect, useState } from "react"
-import tmdbConfigs from "../../api/configs/tmdb.configs"
-import personApi from "../../api/modules/person.api"
-import MediaItem from "./MediaItem"
 import { toast } from "react-toastify"
 
+import { Button, Grid } from "@mui/material"
+
+import personApi from "../../api/modules/person.api"
+
+import MediaItem from "./MediaItem"
+
+import tmdbConfigs from "../../api/configs/tmdb.configs"
+
 const PersonMediaGrid = ({ personId }) => {
-  const [medias, setMedias] = useState([])
   const [filteredMedias, setFilteredMedias] = useState([])
+  const [medias, setMedias] = useState([])
   const [page, setPage] = useState(1)
+
   const skip = 8
 
   useEffect(() => {
     const getMedias = async () => {
       const { response, err } = await personApi.medias({ personId })
 
-      if (err) toast.error(err.message)
       if (response) {
         const mediasSorted = response.cast.sort((a, b) => getReleaseDate(b) - getReleaseDate(a))
         setMedias([...mediasSorted])
         setFilteredMedias([...mediasSorted].splice(0, skip))
       }
+      if (err) toast.error(err.message)
     }
 
     getMedias()
@@ -38,18 +43,27 @@ const PersonMediaGrid = ({ personId }) => {
 
   return (
     <>
-      <Grid container spacing={1} sx={{ marginRight: "-8px!important" }}>
-        {filteredMedias.map((media, index) => (
-          <Grid item xs={6} sm={4} md={3} key={index}>
-            <MediaItem media={media} mediaType={media.media_type} />
-          </Grid>
-        ))}
+      <Grid container spacing={1} sx={{ mx: "-8px!important" }}>
+        {
+          filteredMedias?.map((media, index) => (
+            <Grid item xs={6} sm={4} md={3} key={index}>
+              <MediaItem media={media} mediaType={media.media_type} />
+            </Grid>
+          ))
+        }
       </Grid>
-      {filteredMedias.length < medias.length && (
-        <Button onClick={onLoadMore}>
-          load more
-        </Button>
-      )}
+      {
+        filteredMedias.length < medias.length && (
+          <Button
+            sx={{ mt: { xs: "5% !important", sm: "2% !important" } }}
+            fullWidth
+            color="primary"
+            onClick={onLoadMore}
+          >
+            load more
+          </Button>
+        )
+      }
     </>
   )
 

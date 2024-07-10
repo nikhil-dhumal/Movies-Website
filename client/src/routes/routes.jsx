@@ -1,18 +1,20 @@
 import HomePage from "../pages/HomePage"
+import MediaList from "../pages/MediaList"
+import GenreList from "../pages/GenereList"
+import MediaSearch from "../pages/MediaSearch"
+import MediaDetail from "../pages/MediaDetail"
 import PersonDetail from "../pages/PersonDetail"
 import FavoriteList from "../pages/FavoriteList"
-import MediaDetail from "../pages/MediaDetail"
-import MediaList from "../pages/MediaList"
-import MediaSearch from "../pages/MediaSearch"
-import PasswordUpdate from "../pages/PasswordUpdate"
 import ReviewList from "../pages/ReviewList"
+import PasswordUpdate from "../pages/PasswordUpdate"
 import ProtectedPage from "../components/common/ProtectedPage"
 
 export const routesGen = {
   home: "/",
   mediaList: (type) => `/${type}`,
-  mediaDetail: (type, id) => `/${type}/${id}`,
+  genereList: "/genre",
   mediaSearch: "/search",
+  mediaDetail: (type, id) => `/${type}/${id}`,
   person: (id) => `/person/${id}`,
   favoriteList: "/favorites",
   reviewList: "/reviews",
@@ -26,9 +28,13 @@ const routes = [
     state: "home"
   },
   {
-    path: "/person/:personId",
-    element: <PersonDetail />,
-    state: "person.detail"
+    path: "/:mediaType",
+    element: <MediaList />
+  },
+  {
+    path: "/genres",
+    element: <GenreList />,
+    state: "genres"
   },
   {
     path: "/search",
@@ -36,13 +42,13 @@ const routes = [
     state: "search"
   },
   {
-    path: "/password-update",
-    element: (
-      <ProtectedPage>
-        <PasswordUpdate />
-      </ProtectedPage>
-    ),
-    state: "password.update"
+    path: "/:mediaType/:mediaId",
+    element: <MediaDetail />
+  },
+  {
+    path: "/person/:personId",
+    element: <PersonDetail />,
+    state: "person.detail"
   },
   {
     path: "/favorites",
@@ -63,12 +69,13 @@ const routes = [
     state: "reviews"
   },
   {
-    path: "/:mediaType",
-    element: <MediaList />
-  },
-  {
-    path: "/:mediaType/:mediaId",
-    element: <MediaDetail />
+    path: "/password-update",
+    element: (
+      <ProtectedPage>
+        <PasswordUpdate />
+      </ProtectedPage>
+    ),
+    state: "password.update"
   }
 ]
 

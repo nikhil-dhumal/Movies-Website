@@ -1,15 +1,16 @@
-import { Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"
+
+import { Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material"
 
 const GenresSelect = ({ mediaType, selectedGenre, setSelectedGenre }) => {
-  const { genres } = useSelector((state) => state.genres);
+  const { genres } = useSelector((state) => state.genres)
 
   const handleChange = (event) => {
-    setSelectedGenre(event.target.value);
-  };
+    setSelectedGenre(event.target.value)
+  }
 
   return (
-    <FormControl sx={{ width: "15%" }}>
+    <FormControl sx={{ width: { xs: "50%", sm: "45%", md: "26%", lg: "22%" } }}>
       <InputLabel id="select-genres-label">Select Genre</InputLabel>
       <Select
         labelId="select-genres-label"
@@ -21,14 +22,16 @@ const GenresSelect = ({ mediaType, selectedGenre, setSelectedGenre }) => {
           <Chip key={selected} label={genres[mediaType][selected].name} />
         )}
       >
-        {genres[mediaType]?.map((genre, index) => (
-          <MenuItem key={index} value={index}>
-            {genre.name}
-          </MenuItem>
-        ))}
+        {
+          genres[mediaType]?.map((genre, index) => (
+            <MenuItem key={index} value={index}>
+              {genre.name}
+            </MenuItem>
+          ))
+        }
       </Select>
     </FormControl>
-  );
-};
+  )
+}
 
-export default GenresSelect;
+export default GenresSelect

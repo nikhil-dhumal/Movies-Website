@@ -1,35 +1,35 @@
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
-import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-
-import { LoadingButton } from "@mui/lab"
-import { Box, Button, Chip, Divider, Stack, Typography } from "@mui/material"
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { toast } from "react-toastify"
 
-import CircularRate from "../components/common/CircularRate"
+import { LoadingButton } from "@mui/lab"
+import { Box, Button, Chip, Divider, Stack, Typography } from "@mui/material"
+import FavoriteIcon from "@mui/icons-material/Favorite"
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
+import PlayArrowIcon from "@mui/icons-material/PlayArrow"
+
+import mediaApi from "../api/modules/media.api"
+import favoriteApi from "../api/modules/favorite.api"
+
+import BackdropSlide from "../components/common/BackdropSlide"
+import CastSlide from "../components/common/CastSlide"
 import Container from "../components/common/Container"
+import CircularRate from "../components/common/CircularRate"
 import ImageHeader from "../components/common/ImageHeader"
+import MediaReview from "../components/common/MediaReview"
+import MediaSlide from "../components/common/MediaSlide"
+import MediaVideosSlide from "../components/common/MediaVideosSlide"
+import PosterSlide from "../components/common/PosterSlide"
+import RecommendSlide from "../components/common/RecommendSlide"
+import TVSeasons from "../components/common/TVSeasons"
 
 import uiConfigs from "../configs/ui.configs"
 import tmdbConfigs from "../api/configs/tmdb.configs"
-import mediaApi from "../api/modules/media.api"
-import favoriteApi from "../api/modules/favorite.api"
 
 import { setGlobalLoading } from "../redux/features/globalLoadingSlice"
 import { setAuthModalOpen } from "../redux/features/authModalSlice"
 import { addFavorite, removeFavorite } from "../redux/features/userSlice"
-
-import CastSlide from "../components/common/CastSlide"
-import MediaVideosSlide from "../components/common/MediaVideosSlide"
-import BackdropSlide from "../components/common/BackdropSlide"
-import PosterSlide from "../components/common/PosterSlide"
-import RecommendSlide from "../components/common/RecommendSlide"
-import MediaSlide from "../components/common/MediaSlide"
-import MediaReview from "../components/common/MediaReview"
-import TVSeasons from "../components/common/TVSeasons"
 
 const MediaDetail = () => {
   const { mediaType, mediaId } = useParams()
@@ -38,8 +38,8 @@ const MediaDetail = () => {
 
   const [media, setMedia] = useState()
   const [isFavorite, setIsFavorite] = useState(false)
-  const [onRequest, setOnRequest] = useState(false)
   const [genres, setGenres] = useState([])
+  const [onRequest, setOnRequest] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -118,13 +118,10 @@ const MediaDetail = () => {
     media ? (
       <>
         <ImageHeader imgPath={tmdbConfigs.backdropPath(media.backdrop_path || media.poster_path)} />
-        <Box sx={{
-          color: "primary.contrastText",
-          ...uiConfigs.style.mainContent
-        }}>
+        <Box sx={{ color: "primary.contrastText", ...uiConfigs.style.mainContent }}>
           {/* media content */}
           <Box sx={{
-            marginTop: { xs: "-10rem", md: "-15rem", lg: "-20rem" }
+            mt: { xs: "-10rem", md: "-15rem", lg: "-20rem" }
           }}>
             <Box sx={{
               display: "flex",
@@ -166,14 +163,16 @@ const MediaDetail = () => {
                     {/* rate */}
                     <Divider orientation="vertical" />
                     {/* genres */}
-                    {genres?.map((genre, index) => (
-                      <Chip
-                        label={genre.name}
-                        variant="filled"
-                        color="primary"
-                        key={index}
-                      />
-                    ))}
+                    {
+                      genres?.map((genre, index) => (
+                        <Chip
+                          label={genre.name}
+                          variant="filled"
+                          color="primary"
+                          key={index}
+                        />
+                      ))
+                    }
                     {/* genres */}
                   </Stack>
                   {/* rate and genres */}
@@ -233,19 +232,23 @@ const MediaDetail = () => {
           {/* media videos */}
 
           {/* media backdrop */}
-          {media.images.backdrops.length > 0 && (
-            <Container header="backdrops">
-              <BackdropSlide backdrops={media.images.backdrops} />
-            </Container>
-          )}
+          {
+            media.images.backdrops.length > 0 && (
+              <Container header="backdrops">
+                <BackdropSlide backdrops={media.images.backdrops} />
+              </Container>
+            )
+          }
           {/* media backdrop */}
 
           {/* media posters */}
-          {media.images.posters.length > 0 && (
-            <Container header="posters">
-              <PosterSlide posters={media.images.posters} />
-            </Container>
-          )}
+          {
+            media.images.posters.length > 0 && (
+              <Container header="posters">
+                <PosterSlide posters={media.images.posters} />
+              </Container>
+            )
+          }
           {/* media posters */}
 
           {/* media seasons */}
@@ -264,19 +267,23 @@ const MediaDetail = () => {
 
           {/* media recommendation */}
           <Container header="you may also like">
-            {media.recommend.length > 0 && (
-              <RecommendSlide medias={media.recommend} mediaType={mediaType} />
-            )}
-            {media.recommend.length === 0 && (
-              <MediaSlide
-                mediaType={mediaType}
-                mediaCategory={
-                  mediaType === tmdbConfigs.mediaType.movie
-                    ? tmdbConfigs.movieCategory.top_rated
-                    : tmdbConfigs.tvCategory.top_rated
-                }
-              />
-            )}
+            {
+              media.recommend.length > 0 && (
+                <RecommendSlide medias={media.recommend} mediaType={mediaType} />
+              )
+            }
+            {
+              media.recommend.length === 0 && (
+                <MediaSlide
+                  mediaType={mediaType}
+                  mediaCategory={
+                    mediaType === tmdbConfigs.mediaType.movie
+                      ? tmdbConfigs.movieCategory.top_rated
+                      : tmdbConfigs.tvCategory.top_rated
+                  }
+                />
+              )
+            }
           </Container>
           {/* media recommendation */}
         </Box>

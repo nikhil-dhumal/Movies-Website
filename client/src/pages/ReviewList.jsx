@@ -1,16 +1,22 @@
-import { LoadingButton } from "@mui/lab"
-import { Box, Button, Divider, Stack, Typography } from "@mui/material"
-import dayjs from "dayjs"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { toast } from "react-toastify"
 import { Link } from "react-router-dom"
-import tmdbConfigs from "../api/configs/tmdb.configs"
-import reviewApi from "../api/modules/review.api"
-import Container from "../components/common/Container"
-import uiConfigs from "../configs/ui.configs"
-import { setGlobalLoading } from "../redux/features/globalLoadingSlice"
+import { toast } from "react-toastify"
+import dayjs from "dayjs"
+
+import { LoadingButton } from "@mui/lab"
+import { Box, Button, Divider, Stack, Typography } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete"
+
+import reviewApi from "../api/modules/review.api"
+
+import Container from "../components/common/Container"
+
+import tmdbConfigs from "../api/configs/tmdb.configs"
+import uiConfigs from "../configs/ui.configs"
+
+import { setGlobalLoading } from "../redux/features/globalLoadingSlice"
+
 import { routesGen } from "../routes/routes"
 
 const ReviewItem = ({ review, onRemoved }) => {
@@ -34,17 +40,17 @@ const ReviewItem = ({ review, onRemoved }) => {
       position: "relative",
       display: "flex",
       flexDirection: { xs: "column", md: "row" },
-      padding: 1,
+      p: 1,
       opacity: onRequest ? 0.6 : 1,
       "&:hover": { backgroundColor: "background.paper" }
     }}>
       <Box sx={{ width: { xs: 0, md: "10%" } }}>
         <Link
-          to={routesGen.mediaDetail(review.mediaType, review.mediaid)}
+          to={routesGen.mediaDetail(review.mediaType, review.mediaId)}
           style={{ color: "unset", textDecoration: "none" }}
         >
           <Box sx={{
-            paddingTop: "160%",
+            pt: "160%",
             ...uiConfigs.style.backgroundImage(tmdbConfigs.posterPath(review.mediaPoster))
           }} />
         </Link>
@@ -52,11 +58,11 @@ const ReviewItem = ({ review, onRemoved }) => {
 
       <Box sx={{
         width: { xs: "100%", md: "80%" },
-        padding: { xs: 0, md: "0 2rem" }
+        p: { xs: 0, md: "0 2rem" }
       }}>
         <Stack spacing={1}>
           <Link
-            to={routesGen.mediaDetail(review.mediaType, review.mediaid)}
+            to={routesGen.mediaDetail(review.mediaType, review.mediaId)}
             style={{ color: "unset", textDecoration: "none" }}
           >
             <Typography
@@ -78,7 +84,7 @@ const ReviewItem = ({ review, onRemoved }) => {
         sx={{
           position: { xs: "relative", md: "absolute" },
           right: { xs: 0, md: "10px" },
-          marginTop: { xs: 2, md: 0 },
+          mt: { xs: 2, md: 0 },
           width: "max-content"
         }}
         startIcon={<DeleteIcon />}
@@ -100,7 +106,7 @@ const ReviewList = () => {
 
   const dispatch = useDispatch()
 
-  const skip = 2
+  const skip = 4
 
   useEffect(() => {
     const getReviews = async () => {
@@ -132,7 +138,7 @@ const ReviewList = () => {
   }
 
   return (
-    <Box sx={{ ...uiConfigs.style.mainContent }}>
+    <Box sx={{ ...uiConfigs.style.mainContent, mb: 2 }}>
       <Container header={`Your reviews (${count})`}>
         <Stack spacing={2}>
           {filteredReviews?.map((item) => (
@@ -144,7 +150,14 @@ const ReviewList = () => {
             </Box>
           ))}
           {filteredReviews.length < reviews.length && (
-            <Button onClick={onLoadMore}>load more</Button>
+            <Button
+              sx={{ mt: 2 }}
+              fullWidth
+              color="primary"
+              onClick={onLoadMore}
+            >
+              load more
+            </Button>
           )}
         </Stack>
       </Container>
