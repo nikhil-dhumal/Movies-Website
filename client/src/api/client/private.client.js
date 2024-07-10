@@ -1,7 +1,7 @@
 import axios from "axios"
 import queryString from "query-string"
 
-const baseURL = "http://localhost:5000/api/v2/"
+const baseURL = "https://moonflix-2.onrender.com/api/v2/"
 
 const privateClient = axios.create({
   baseURL,
