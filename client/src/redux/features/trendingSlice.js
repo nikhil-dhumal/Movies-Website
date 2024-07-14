@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 export const trendingSlice = createSlice({
-  name: "trending",
+  name: "Trending",
   initialState: {
     trending: "day"
   },
