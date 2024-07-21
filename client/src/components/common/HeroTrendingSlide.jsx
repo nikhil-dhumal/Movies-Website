@@ -88,17 +88,24 @@ const HeroSlide = () => {
         flexGrow={1}
         sx={{
           display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
           alignItems: "center",
           gap: 1,
           position: "absolute",
-          right: "1%",
-          bottom: "5%",
+          right: { xs: "2%", md: "1%" },
+          bottom: { xs: "5%", lg: "7%" },
           zIndex: 100,
           color: "text.primary"
         }}
       >
-        <WhatshotIcon />
-        Trending
+        <Stack
+          direction="row"
+          alignItems="center"
+          gap={1}
+        >
+          <WhatshotIcon />
+          Trending
+        </Stack>
         <ButtonGroup variant="contained">
           <Button
             onClick={() => setTimeWidth("day")}
