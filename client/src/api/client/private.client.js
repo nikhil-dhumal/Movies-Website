@@ -1,7 +1,7 @@
 import axios from "axios"
 import queryString from "query-string"
 
-const baseURL = "https://moonflix-2.onrender.com/api/v2/"
+const baseURL = process.env.REACT_APP_BACKEND_BASE_URL
 
 const privateClient = axios.create({
   baseURL,
