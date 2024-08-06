@@ -1,7 +1,7 @@
 import axios from "axios"
 import queryString from "query-string"
 
-const baseURL = process.env.REACT_APP_BACKEND_BASE_URL
+const baseURL = `${process.env.REACT_APP_BACKEND_BASE_URL}/api/v2`
 
 const publicClient = axios.create({
   baseURL,
