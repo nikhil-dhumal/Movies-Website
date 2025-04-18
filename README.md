@@ -8,7 +8,7 @@ This project utilizes the MERN (MongoDB, Express.js, React.js, Node.js) stack to
 - [Features](#features)
 - [Technologies](#technologies)
 - [Installation](#installation)
-- [Sreenshots](#sreenshots)
+- [Screenshots](#screenshots)
 - [Acknowledgements](#acknowledgements)
 
 ## Introduction
